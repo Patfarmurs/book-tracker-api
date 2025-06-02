@@ -1,0 +1,46 @@
+### Get all books
+GET http://localhost:3000/books
+Content-Type: application/json
+
+###
+
+### Get a single book by ID (replace with a real ID)
+GET http://localhost:3000/books/683ab4ec83f8f09934d32a81
+Content-Type: application/json
+
+###
+
+### Add a new book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "The Book of Mormon",
+  "author": "Joseph Smith",
+  "genre": "Religious Scripture",
+  "publishedYear": "1830",
+  "ISBN": "9781401234567",
+  "pages": "531",
+  "status": "Available"
+}
+
+###
+
+### Update a book by ID
+PUT http://localhost:3000/books/683ab4ec83f8f09934d32a81
+Content-Type: application/json
+
+{
+  "title": "Pearl of Great Price - Updated",
+  "author": "Joseph Smith",
+  "genre": "Religious Scripture",
+  "publishedYear": "1972",
+  "ISBN": "9781411466371",
+  "pages": "65",
+  "status": "Available"
+}
+
+###
+
+### Delete a book by ID
+DELETE http://localhost:3000/books/683ab4ec83f8f09934d32a81

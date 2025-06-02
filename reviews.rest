@@ -1,0 +1,16 @@
+### Get all reviews
+GET http://localhost:3000/reviews
+Content-Type: application/json
+
+###
+
+### Add a new review
+POST http://localhost:3000/reviews
+Content-Type: application/json
+
+{
+  "bookId": "683ab4ec83f8f09934d32a81",
+  "reviewer": "Patrick Mukula",
+  "rating": "10",
+  "comment": "An inspiring read!"
+}

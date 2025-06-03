@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { reviewValidationRules, validate } = require('../validators/validator');
 const { ObjectId } = require('mongodb');
 const { getDatabase } = require('../data/database');
 
@@ -86,14 +87,14 @@ router.get('/', async (req, res) => {
  *     responses:
  *       201:
  *         description: Review added successfully
+ *       422:
+ *          description: Bad Request - Validation errors
+ * *     500:
+ *          description: Server error
  */
-router.post('/', async (req, res) => {
+router.post('/', reviewValidationRules(), validate, async (req, res) => {
     try {
         const { bookId, reviewer, rating, comment } = req.body;
-        if (!bookId || !reviewer || !rating || !comment) {
-            return res.status(400).send('All fields are required');
-        }
-
         const db = getDatabase();
         const result = await db.collection('Reviews').insertOne({
             bookId: new ObjectId(bookId),

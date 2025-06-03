@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { bookValidationRules, validate } = require('../validators/validator');
+
 const { ObjectId } = require('mongodb');
 const { getDatabase } = require('../data/database');
 
@@ -99,29 +101,20 @@ router.get('/', async (req, res) => {
  *     responses:
  *       201:
  *         description: Book added successfully
+ * *     422:
+ *         description: Validation error
+ *       500:
+ *         description: Server error
  */
-router.post('/', async (req, res) => {
+router.post('/', bookValidationRules(), validate, async (req, res) => {
     try {
-        const { title, author, genre, publishedYear, ISBN, pages, status } = req.body;
-        if (!title || !author || !genre || !publishedYear || !ISBN || !pages || !status) {
-            return res.status(400).send('All fields are required');
-        }
-
         const db = getDatabase();
-        const result = await db.collection('Books').insertOne({
-            title,
-            author,
-            genre,
-            publishedYear,
-            ISBN,
-            pages,
-            status
-        });
-
+        const book = req.body;
+        const result = await db.collection('Books').insertOne(book);
         res.status(201).json({ id: result.insertedId });
-    } catch (err) {
-        console.error('Err adding book:', err);
-        res.status(500).send('Server Error');
+    } catch (error) {
+        console.error('Error adding book:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
 

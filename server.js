@@ -1,45 +1,33 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-const dotenv = require('dotenv');
-require('dotenv').config();
-require('./config/passport');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
 const db = require('./data/database');
-const routes = require('./routes');
-const cors = require('cors');
 
 
-dotenv.config();
+require('./config/passport'); 
+
 const app = express();
-
 app.use(express.json());
 
 
-
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use('/',routes);
-
-
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: true,
-        sameSite: 'none',
-    },
-  })
-);
-
-
 app.use(cors({
-  origin: '',
+  origin: 'https://book-tracker-api-m2h1.onrender.com',
   credentials: true
+}));
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,       
+    sameSite: 'lax'      
+  }
 }));
 
 
@@ -47,11 +35,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.get('/', (req, res) => {
-  res.send(`<h1>Welcome</h1><a href="/auth/google">Login with Google</a>`);
-});
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-// Google Auth Routes
+
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
@@ -63,37 +49,40 @@ app.get('/auth/google/callback',
   })
 );
 
-// Protected Route
+
 app.get('/profile', ensureAuthenticated, (req, res) => {
   res.send(`<h1>Welcome to the Book Review API, ${req.user.displayName}</h1><a href="/logout">Logout</a>`);
 });
 
-// Logout
+
 app.get('/logout', (req, res) => {
   req.logout(() => {
     res.redirect('/');
   });
 });
 
-// Middleware to check authentication
+
+app.get('/', (req, res) => {
+  res.send(`<h1>Welcome to the Book Review API</h1><a href="/auth/google">Login with Google</a>`);
+});
+
+
+app.use('/', require('./routes/index'));
+
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/');
 }
 
 
-
-
-app.use('/', require('./routes/index'));
-
 const port = process.env.PORT || 3000;
-
 db.initdb((err) => {
-    if (err) {
-        console.error(err);
-    } else {
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-        });
-    }
+  if (err) {
+    console.error(err);
+  } else {
+    app.listen(port, () => {
+      console.log(`🚀 Server is running on port ${port}`);
+    });
+  }
 });

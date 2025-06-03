@@ -65,7 +65,7 @@ app.get('/auth/google/callback',
 
 // Protected Route
 app.get('/profile', ensureAuthenticated, (req, res) => {
-  res.send(`<h1>Hello, ${req.user.displayName}</h1><a href="/logout">Logout</a>`);
+  res.send(`<h1>Welcome to the Book Review API, ${req.user.displayName}</h1><a href="/logout">Logout</a>`);
 });
 
 // Logout
@@ -81,10 +81,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 }
 
-
-app.get('/', (req, res) => {
-    res.send('Welcome to the Book Review API');
-});
 
 
 

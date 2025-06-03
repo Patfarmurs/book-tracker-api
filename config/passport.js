@@ -14,7 +14,7 @@ new GoogleStrategy(
     {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/auth/google/callback',
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || 'https://book-tracker-api-m2h1.onrender.com/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
         // Here you would typically find or create a user in your database

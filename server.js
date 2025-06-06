@@ -38,12 +38,12 @@ app.use(passport.session());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+app.get('/auth/github',
+  passport.authenticate('github', { scope: ['profile', 'email'] })
 );
 
-app.get('/auth/google/callback',
-  passport.authenticate('google', {
+app.get('/auth/github/callback',
+  passport.authenticate('github', {
     failureRedirect: '/',
     successRedirect: '/profile'
   })
@@ -63,7 +63,7 @@ app.get('/logout', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.send(`<h1>Welcome to the Book Review API</h1><a href="/auth/google">Login with Google</a>`);
+  res.send(`<h1>Welcome to the Book Review API</h1><a href="/auth/github">Login with GitHub</a>`);
 });
 
 
@@ -82,7 +82,7 @@ db.initdb((err) => {
     console.error(err);
   } else {
     app.listen(port, () => {
-      console.log(`🚀 Server is running on port ${port}`);
+      console.log(` Server is running on port ${port}`);
     });
   }
 });

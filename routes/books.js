@@ -131,7 +131,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', bookValidationRules(), validate, async (req, res) => {
     try {
         const { title, author, genre, publishedYear, ISBN, pages, status } = req.body;
         if (!title || !author || !genre || !publishedYear || !ISBN || !pages || !status) {

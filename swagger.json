@@ -5,7 +5,7 @@
     "description": "API for tracking books and reviews",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "book-tracker-api-m2h1.onrender.com",
   "basePath": "/",
   "schemes": [
     "http"

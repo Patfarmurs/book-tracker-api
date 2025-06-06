@@ -4,7 +4,7 @@ const doc = {
         title: 'Book Review API',
         description: 'API for tracking books and reviews',
     },
-    host: 'localhost:3000',
+    host: 'book-tracker-api-m2h1.onrender.com',
     schemes: ['http'],
 };
 

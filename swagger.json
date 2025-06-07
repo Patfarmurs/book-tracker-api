@@ -8,7 +8,7 @@
   "host": "book-tracker-api-m2h1.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/books/": {

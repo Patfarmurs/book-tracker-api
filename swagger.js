@@ -5,7 +5,7 @@ const doc = {
         description: 'API for tracking books and reviews',
     },
     host: 'book-tracker-api-m2h1.onrender.com',
-    schemes: ['http'],
+    schemes: ['https'],
 };
 
 const outputFile = './swagger.json';
